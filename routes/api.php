@@ -20,7 +20,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth',  'role:admin'])->group(function () {
     Route::get('SoldroductAPI',[\App\Http\Controllers\SellDtlsController::class,'SoldProductAPI']);
     Route::post('NewCustomer', [\App\Http\Controllers\CustomerController::class, 'store'])->name('NewCustomer');
     Route::put('UpdateCustomer/{customerId}', [\App\Http\Controllers\CustomerController::class, 'UpdateCustomer']);
@@ -79,5 +79,32 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::middleware(['auth',  'role:salesman'])->group(function () {
+    Route::post('sell',[\App\Http\Controllers\SellDtlsController::class,'store']);
+    Route::post('DuePay',[\App\Http\Controllers\SellDtlsController::class,'Due']);
+    Route::get('TotalBillByDate/{date}',[\App\Http\Controllers\SellDtlsController::class,'TotalBillByDate']);
+    Route::get('TotalPayByDate/{date}',[\App\Http\Controllers\SellDtlsController::class,'TotalPayByDate']);
+    Route::get('SoldProduct/{Date}',[\App\Http\Controllers\SellDtlsController::class,'soldProductsByDate']);
+    Route::get('GetMemo/{Date}',[\App\Http\Controllers\SellDtlsController::class,'getSellMemo']);
+    Route::get('GetMemoPaid/{Date}',[\App\Http\Controllers\SellDtlsController::class,'getSellPaid']);
+    Route::get('sellMemoDetails/{sellMemoID}',[\App\Http\Controllers\SellDtlsController::class,'getSellMemoDetails']);
 
+    Route::get('customer/{customerId}/ledger', [\App\Http\Controllers\CustomerController::class, 'ledger']);
+    Route::get('customer/{customerId}', [\App\Http\Controllers\CustomerController::class, 'CustomerById']);
+    Route::get('customers', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customers');
+    Route::get('TotalDue', [\App\Http\Controllers\CustomerController::class, 'TotalDue']);
+    Route::get('Product',[\App\Http\Controllers\ProductController::class,'index']);
+    Route::get('AllProduct',[\App\Http\Controllers\ProductController::class,'AllProduct']);
+    Route::get('SoldroductAPI',[\App\Http\Controllers\SellDtlsController::class,'SoldProductAPI']);
+    Route::get('TotalExpByDate/{date}',[\App\Http\Controllers\ExpenseController::class,'TotalExpByDate']);
+    Route::get('BalanceSheet',[\App\Http\Controllers\BalanceSheetController::class,'index']);
+
+    Route::get('ProductValue',[\App\Http\Controllers\ProductController::class,'ProductValue']);
+
+    Route::get('ProductCat',[\App\Http\Controllers\ProductCat::class,'index'])->name('ProductCat');
+    Route::get('ProductBrand',[\App\Http\Controllers\BrandController::class,'index']) ->name('ProductBrand');
+    Route::get('ProductUnit',[\App\Http\Controllers\ProductUnitController::class,'index']);
+
+
+});
 
