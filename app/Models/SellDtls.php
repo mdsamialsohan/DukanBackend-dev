@@ -9,12 +9,16 @@ class SellDtls extends Model
 {
     use HasFactory;
     protected $table = 'sell_dtls';
+    protected $primaryKey = 'SellDtID';
     protected $fillable = [
         'ProductID',
         'SellMemoID',
         'Quantity',
         'Rate',
-        'SubTotal'
+        'SubTotal',
+        'isApproved',
+        'approved_by',
+        'created_by',
     ];
     public function product()
     {
@@ -24,4 +28,14 @@ class SellDtls extends Model
     {
         return $this->belongsTo(SellMemo::class, 'SellMemoID');
     }
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+
 }

@@ -16,7 +16,10 @@ class SellMemo extends Model
         'PrevDue',
         'TotalBill',
         'Paid',
-        'Due'
+        'Due',
+        'isApproved',
+        'approved_by',
+        'created_by',
     ];
     public function sellDtls()
     {
@@ -25,5 +28,13 @@ class SellMemo extends Model
     public function customer()
     {
         return $this->belongsTo(CustomerList::class, 'c_id', 'c_id');
+    }
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
