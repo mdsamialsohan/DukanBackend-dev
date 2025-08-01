@@ -23,6 +23,7 @@ Route::post('approveMemo/{id}', [\App\Http\Controllers\SellDtlsController::class
 Route::get('pendingMemos', [\App\Http\Controllers\SellDtlsController::class, 'pendingMemos']);
 Route::get('SoldProductAPI',[\App\Http\Controllers\SellDtlsController::class,'SoldProductAPI']);
 
+
 Route::middleware(['auth'])->group(function () {
     Route::post('NewCustomer', [\App\Http\Controllers\CustomerController::class, 'store'])->name('NewCustomer');
     Route::put('UpdateCustomer/{customerId}', [\App\Http\Controllers\CustomerController::class, 'UpdateCustomer']);
@@ -71,6 +72,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('NewAccount',[\App\Http\Controllers\AccountController::class,'store']);
     Route::post('BalanceTransfer',[\App\Http\Controllers\AccountController::class,'transfer']);
     Route::post('CashDeclare',[\App\Http\Controllers\AccountController::class,'Declare']);
+
+
+    Route::get('UserInfo',[\App\Http\Controllers\UserController::class,'ShowUserInfo']);
+    Route::post('PickUp',[\App\Http\Controllers\UserController::class,'Pick']);
 
     Route::get('ExpAccount',[\App\Http\Controllers\ExpenseController::class,'ExpIndex']);
     Route::post('AddExpAccount',[\App\Http\Controllers\ExpenseController::class,'ExpStore']);
