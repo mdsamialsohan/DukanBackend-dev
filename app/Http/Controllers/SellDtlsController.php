@@ -183,6 +183,25 @@ class SellDtlsController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    public function reject(Request $request, $memoId)
+    {
+        DB::beginTransaction();
+        try {
+            $sellMemo = SellMemo::findOrFail($memoId);
+
+            // Delete related SellDtls
+            SellDtls::where('SellMemoID', $sellMemo->SellMemoID)->delete();
+
+            // Delete the SellMemo
+            $sellMemo->delete();
+
+            DB::commit();
+            return response()->json(['message' => 'Transaction rejected and deleted successfully'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to reject transaction'], 500);
+        }
+    }
 
     public function Due(Request $request)
     {
@@ -206,6 +225,8 @@ class SellDtlsController extends Controller
                 'TotalBill' => 0,
                 'PrevDue' => 0,
                 'Paid' => $request->input('Pay'),
+                'isApproved' => $user->role === 'admin', // auto-approve if admin
+                'approved_by' => $user->role === 'admin' ? $user->id : null,
                 'created_by' => $user->id,
             ]);
 

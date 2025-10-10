@@ -56,6 +56,7 @@ class CustomerController extends Controller
             'mobile' => 'nullable|string',
             'address' => 'required|string',
             'national_id' => 'nullable|string',
+            'due' => 'required|string'
         ]);
 
         try {

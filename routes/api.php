@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\TcbController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('approveMemo/{id}', [\App\Http\Controllers\SellDtlsController::class, 'approve']);
-Route::get('pendingMemos', [\App\Http\Controllers\SellDtlsController::class, 'pendingMemos']);
 Route::get('SoldProductAPI',[\App\Http\Controllers\SellDtlsController::class,'SoldProductAPI']);
-
+Route::get('/tcbs', [TcbController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('approveMemo/{id}', [\App\Http\Controllers\SellDtlsController::class, 'approve']);
+    Route::post('RejectMemo/{id}', [\App\Http\Controllers\SellDtlsController::class, 'reject']);
+    Route::get('pendingMemos', [\App\Http\Controllers\SellDtlsController::class, 'pendingMemos']);
     Route::post('NewCustomer', [\App\Http\Controllers\CustomerController::class, 'store'])->name('NewCustomer');
     Route::put('UpdateCustomer/{customerId}', [\App\Http\Controllers\CustomerController::class, 'UpdateCustomer']);
     Route::get('customer/{customerId}/ledger', [\App\Http\Controllers\CustomerController::class, 'ledger']);
