@@ -115,7 +115,7 @@ class SellDtlsController extends Controller
         $request->validate([
             'date' => 'required|date',
             'customerID' => 'required|exists:customer_list,c_id',
-            'paid' => 'required|numeric|min:0',
+            'paid' => 'required|numeric',
             'sell_dtls' => 'nullable|array',
             'sell_dtls.*.SellDtID' => 'required|exists:sell_dtls,SellDtID',
             'sell_dtls.*.product_id' => 'required|exists:products,ProductID',
@@ -362,5 +362,4 @@ class SellDtlsController extends Controller
             'pendingMemos' => $pending,
         ]);
     }
-
 }
