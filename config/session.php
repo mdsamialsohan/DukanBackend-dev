@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', '.ezdokani.com'),
+    'domain' => '.ezdokani.com',
 
     /*
     |--------------------------------------------------------------------------
