@@ -1,0 +1,51 @@
+name: Deploy Laravel App to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: SSH and deploy to VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            PROJECT_DIR=/var/www/api.ezdokani.com/DukanBackend-dev
+
+            # First-time clone
+            if [ ! -d "$PROJECT_DIR/.git" ]; then
+              echo "Cloning repo..."
+              mkdir -p $PROJECT_DIR
+              git clone https://github.com/mdsamialsohan/DukanBackend-dev.git $PROJECT_DIR
+            fi
+
+            cd $PROJECT_DIR
+
+            # Sync repo
+            git fetch --all
+            git reset --hard origin/main
+
+            # Stop old containers
+            sudo docker-compose down
+
+            # Build & start containers
+            sudo docker-compose build
+            sudo docker-compose up -d
+
+            # Optional: check container status
+            sudo docker ps
+
+            # Reload main Nginx
+            sudo nginx -t && sudo systemctl reload nginx
+
+            echo "Laravel deployment completed successfully!"
