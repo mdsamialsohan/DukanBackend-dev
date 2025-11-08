@@ -8,8 +8,7 @@ return [
         'logout',
         'register',
         'forgot-password',
-        'reset-password',
-        'email/*'
+        'reset-password'
     ],
 
     'allowed_methods' => ['*'],
