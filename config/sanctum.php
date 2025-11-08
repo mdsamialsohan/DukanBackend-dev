@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'ezdokani.com,.ezdokani.com')),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'ezdokani.com,.ezdokani.com,localhost,127.0.0.1')),
 
 
     /*
