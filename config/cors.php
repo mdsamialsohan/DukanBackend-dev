@@ -1,11 +1,8 @@
 <?php
 return [
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '/register', '/login'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'register', 'forgot-password', 'reset-password', 'email/*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => explode(',', env('FRONTEND_URL', 'https://ezdokani.com')),
-    'allowed_origins_patterns' => [],
+    'allowed_origins' => ['https://ezdokani.com'],
     'allowed_headers' => ['*'],
-    'exposed_headers' => [],
-    'max_age' => 0,
     'supports_credentials' => true,
 ];
